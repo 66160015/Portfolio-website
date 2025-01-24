@@ -31,12 +31,16 @@
             display: block;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="email"] {
+        input[type="text"], input[type="email"], textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
+        }
+        textarea {
+            height: 150px;
+            resize: none;
         }
         button {
             width: 100%;
@@ -59,11 +63,38 @@
             color: #fff;
         }
     </style>
+    <script>
+        function validateForm(event) {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const message = document.getElementById('message').value.trim();
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (name === '') {
+                alert('Please enter your name.');
+                event.preventDefault();
+                return false;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert('Please enter a valid email address.');
+                event.preventDefault();
+                return false;
+            }
+
+            if (message === '') {
+                alert('Please enter your message.');
+                event.preventDefault();
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="contact-container">
         <h2>Contact Us</h2>
-        <form action="submit_form.php" method="POST">
+        <form action="submit_form.php" method="POST" onsubmit="return validateForm(event)">
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input type="text" id="name" name="name" required>
